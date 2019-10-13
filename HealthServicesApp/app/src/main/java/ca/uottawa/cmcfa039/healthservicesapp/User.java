@@ -1,8 +1,8 @@
 public abstract class User{
 	
 	//Class Variable Declarations
-	private String password, userName;
-	private Final String FIRST_NAME, LAST_NAME;
+	public String password, userName;
+	public String FIRST_NAME, LAST_NAME;
 	
 	//Default Constructor
 	User(){
@@ -39,5 +39,5 @@ public abstract class User{
 	private String getPassWord(){
 		return password;
 	}
-	
+}
 	//Setters will be handled in Client class

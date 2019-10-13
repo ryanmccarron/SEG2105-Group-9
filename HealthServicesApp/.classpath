@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="src" path="app/src/androidTest/java"/>
+	<classpathentry excluding="ca/uottawa/cmcfa039/healthservicesapp/" kind="src" path="app/src/main/java"/>
+	<classpathentry kind="src" path="app/src/main/java/ca/uottawa/cmcfa039/healthservicesapp"/>
+	<classpathentry kind="src" path="app/src/test/java"/>
+	<classpathentry kind="lib" path="gradle/wrapper/gradle-wrapper.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
