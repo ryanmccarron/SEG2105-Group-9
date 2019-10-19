@@ -89,6 +89,8 @@ public class SignUpActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()) {
+
+                    mDatabase.getReference("/users/patients").child(mAuth.getCurrentUser().getUid()).setValue(mPatient);
                     Toast.makeText(getApplicationContext(), "Successful", Toast.LENGTH_LONG).show();
                     Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
                     startActivity(intent);
