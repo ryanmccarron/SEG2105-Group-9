@@ -9,8 +9,5 @@ public class Client extends User {
 		super (fName, lName, password, em);
 	}
 
-	public void changePassowrd (String newPassword){
-		this.password = newPassword;
-	}
 	// This class will be further developed in other deliverables
 }

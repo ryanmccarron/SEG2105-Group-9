@@ -51,17 +51,17 @@ public class SignUpActivity extends AppCompatActivity {
 
     public void signUpNewUser() {
 
-        final String FIRST_NAME = firstNameEditText.getText().toString();
-        final String LAST_NAME = lastNameEditText.getText().toString();
+        final String firstName = firstNameEditText.getText().toString();
+        final String lastName = lastNameEditText.getText().toString();
         final String email = emailEditText.getText().toString();
         final String password = passwordEditText.getText().toString();
-        String confirmPassword = passwordConfirmEditText.getText().toString();
+        final String confirmPassword = passwordConfirmEditText.getText().toString();
 
-        if (TextUtils.isEmpty(FIRST_NAME)) {
+        if (TextUtils.isEmpty(firstName)) {
             Toast.makeText(getApplicationContext(), "Please enter First Name!", Toast.LENGTH_LONG).show();
             return;
         }
-        if (TextUtils.isEmpty(LAST_NAME)) {
+        if (TextUtils.isEmpty(lastName)) {
             Toast.makeText(getApplicationContext(), "Please enter Last Name!", Toast.LENGTH_LONG).show();
             return;
         }
@@ -83,7 +83,7 @@ public class SignUpActivity extends AppCompatActivity {
             return;
         }
 
-        final Patient mPatient = new Patient(FIRST_NAME, LAST_NAME, password, email);
+        final Patient mPatient = new Patient(firstName, lastName, password, email);
 
         mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
             @Override

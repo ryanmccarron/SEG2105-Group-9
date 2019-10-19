@@ -3,13 +3,13 @@ package ca.uottawa.cmcfa039.healthservicesapp;
 public abstract class User{
 	
 	//Class Variable Declarations
-	public String password, userName, email;
-	public String FIRST_NAME, LAST_NAME;
+	private String password, userName, email;
+	private String firstName, lastName;
 	
 	//Default Constructor
 	User(){
-		FIRST_NAME = null;
-		LAST_NAME = null;
+		firstName = null;
+		lastName = null;
 		//userName = null;
 		password = null;
 		email = null;
@@ -17,33 +17,34 @@ public abstract class User{
 	
 	//Constructor with passed variables
 	User(String fName, String lName, String pass, String mail){
-		FIRST_NAME = fName;
-		LAST_NAME = lName;
+		firstName = fName;
+		lastName = lName;
 		//userName = uName;
 		password = pass;
 		email = mail;
 	}
 	
-	//getter for FIRST_NAME variable
-	private String getFirstName(){
-		return FIRST_NAME;
-	}
-	
-	//getter for LAST_NAME variable
-	private String getLastName(){
-		return LAST_NAME;
-	}
-	
+	//getter for firstName variable
+	public String getFirstName(){ return firstName; }
+	public void setFirstName(String newFirstName) {this.firstName = newFirstName;}
+
+
+	//getter for lastName variable
+	public String getLastName(){ return lastName; }
+	public void setLastName(String newLastName) {this.lastName = newLastName;}
+
 	//getter for userName variable
 	/*private String getUserName(){
 		return userName;
 	}*/
-	
-	//getter for password variable
-	private String getPassWord(){
-		return password;
-	}
 
-	private String getEmail() { return email; }
+	//getter for password variable
+	public String getPassword(){ return password; }
+	public void setPassword(String newPassword) {this.password = newPassword;}
+
+	public String getEmail() { return email; }
+	public void setEmail(String newEmail) {this.email = newEmail;}
+
+
 }
 	//Setters will be handled in Client class

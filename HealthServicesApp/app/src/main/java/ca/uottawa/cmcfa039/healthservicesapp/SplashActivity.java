@@ -3,6 +3,7 @@ package ca.uottawa.cmcfa039.healthservicesapp;
 import android.content.Intent;
 import android.widget.EditText;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.text.TextUtils;
 import android.os.Bundle;
@@ -16,25 +17,31 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.ValueEventListener;
 
 
 public class SplashActivity extends AppCompatActivity {
 
-    private EditText welcomeEditText;
-    private EditText signInEditText;
+    private TextView welcomeEditText;
+    private TextView signInEditText;
     private Button signOutButton;
 
     private FirebaseAuth mAuth;
-    private FirebaseDatabase mDatabase;
+    private DatabaseReference mDatabase;
+    private FirebaseUser mUser;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
         mAuth = FirebaseAuth.getInstance();
-        mDatabase = FirebaseDatabase.getInstance();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        mUser = mAuth.getCurrentUser();
 
 
         initalizeUI();
@@ -47,7 +54,38 @@ public class SplashActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        if(mUser == null) {
+            finish();
+            Intent intent = new Intent(SplashActivity.this, MainActivity.class);
+            startActivity(intent);
+
+        }
+
+        else {
+            mDatabase.child("/users/patients").child(mUser.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    Patient currentPatient = dataSnapshot.getValue(Patient.class);
+
+                    String firstName = currentPatient.getFirstName();
+                    String type = "Patient";
+
+                    welcomeEditText.setText("Welcome " + firstName);
+                    signInEditText.setText("Your are a " + type);
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+        }
+
     }
+
+
 
 
     public void initalizeUI(){
