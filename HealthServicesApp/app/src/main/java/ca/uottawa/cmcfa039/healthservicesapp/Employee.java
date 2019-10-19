@@ -1,4 +1,6 @@
 
+package ca.uottawa.cmcfa039.healthservicesapp;
+
 public class Employee extends Client {
 	
 	//Clinic myClinic 
@@ -8,7 +10,7 @@ public class Employee extends Client {
 		super ();
 
 	}
-	public Employee (String fName, String lName, String uName, String password, String em){
-		super (fName, lName, uName, password, em);
+	public Employee (String fName, String lName, String password, String em){
+		super (fName, lName, password, em);
 	}
 }

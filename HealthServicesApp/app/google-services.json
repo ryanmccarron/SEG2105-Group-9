@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "98889215332",
+    "firebase_url": "https://healthservicesapp-79b65.firebaseio.com",
+    "project_id": "healthservicesapp-79b65",
+    "storage_bucket": "healthservicesapp-79b65.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:98889215332:android:2ae21bd63bcf18a89cde71",
+        "android_client_info": {
+          "package_name": "ca.uottawa.cmcfa039.healthservicesapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "98889215332-ajrpp8papb74pk0pchkkqhu7daut1ogv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ca.uottawa.cmcfa039.healthservicesapp",
+            "certificate_hash": "7fe41a51244064df6bfb8cda4dbf8a6969b2a5f5"
+          }
+        },
+        {
+          "client_id": "98889215332-igo6b6inp0g3asaoltjdpfq1cgv5sthr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCnCh6AozCCnJQ_INrlbNxlmEgUm7nR_X0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "98889215332-igo6b6inp0g3asaoltjdpfq1cgv5sthr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
