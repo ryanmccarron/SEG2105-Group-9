@@ -30,14 +30,14 @@
             android:orientation="horizontal">
 
             <CheckBox
-                android:id="@+id/patientBox"
+                android:id="@+id/patientCheckBox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="PATIENT" />
 
             <CheckBox
-                android:id="@+id/employeeBox"
+                android:id="@+id/employeeCheckBox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"

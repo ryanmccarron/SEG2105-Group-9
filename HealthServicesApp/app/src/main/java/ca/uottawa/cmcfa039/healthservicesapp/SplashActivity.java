@@ -24,6 +24,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.ValueEventListener;
 
+import java.security.spec.ECField;
+
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -55,38 +57,63 @@ public class SplashActivity extends AppCompatActivity {
             }
         });
 
-        if(mUser == null) {
+        if (mUser == null) {
             finish();
             Intent intent = new Intent(SplashActivity.this, MainActivity.class);
             startActivity(intent);
 
+        } else {
+
+            patientSplash(); //CHANGE THIS
+
         }
+    }
 
-        else {
-            mDatabase.child("/users/patients").child(mUser.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    Patient currentPatient = dataSnapshot.getValue(Patient.class);
+    public void patientSplash() {
+        mDatabase.child("/users/patients").child(mUser.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Patient currentPatient = dataSnapshot.getValue(Patient.class);
 
-                    String firstName = currentPatient.getFirstName();
-                    String type = "Patient";
+                String firstName = currentPatient.getFirstName();
+                String type = "Patient";
 
-                    welcomeEditText.setText("Welcome " + firstName);
-                    signInEditText.setText("Your are a " + type);
+                welcomeEditText.setText("Welcome " + firstName);
+                signInEditText.setText("Your are a " + type);
+                return;
 
-                }
+            }
 
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
 
-                }
-            });
-        }
-
+            }
+        });
     }
 
 
+    public void employeeSplash() {
 
+        mDatabase.child("/users/employees").child(mUser.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Employee currentEmployee = dataSnapshot.getValue(Employee.class);
+
+                String firstName = currentEmployee.getFirstName();
+                String type = "Employee";
+
+                welcomeEditText.setText("Welcome " + firstName);
+                signInEditText.setText("Your are a " + type);
+                return;
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
 
     public void initalizeUI(){
         welcomeEditText = findViewById(R.id.welcomeText);

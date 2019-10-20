@@ -1,12 +1,15 @@
 package ca.uottawa.cmcfa039.healthservicesapp;
 
 import android.content.Intent;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Button;
 import android.widget.Toast;
 import android.text.TextUtils;
 import android.os.Bundle;
 import android.view.View;
+
+import java.security.MessageDigest;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,7 +18,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.android.gms.tasks.Task;
 
@@ -28,6 +30,8 @@ public class SignUpActivity extends AppCompatActivity {
     private EditText passwordConfirmEditText;
     private EditText emailEditText;
     private Button signupButton;
+    private CheckBox patientBox;
+    private CheckBox employeeBox;
 
     private FirebaseAuth mAuth;
     private FirebaseDatabase mDatabase;
@@ -78,29 +82,65 @@ public class SignUpActivity extends AppCompatActivity {
             return;
         }
 
-        if(!password.equals(confirmPassword)) {
+        if (password.length() < 6) {
+            Toast.makeText(getApplicationContext(), "Password too short. Must be at least 6 characters.", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        if (!password.equals(confirmPassword)) {
             Toast.makeText(getApplicationContext(), "Passwords do not match. Try again!", Toast.LENGTH_LONG).show();
             return;
         }
 
-        final Patient mPatient = new Patient(firstName, lastName, password, email);
+        if (patientBox.isChecked() && employeeBox.isChecked()) {
+            Toast.makeText(getApplicationContext(), "ERROR! Cannot be both a Patient AND an Employee!", Toast.LENGTH_LONG).show();
+            return;
+        }
 
-        mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+        if(!(patientBox.isChecked() || employeeBox.isChecked())) {
+            Toast.makeText(getApplicationContext(), "ERROR! Must choose either Patient or Employee", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        if (patientBox.isChecked()) {
+            final Patient mPatient = new Patient(firstName, lastName, password, email);
+            mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                @Override
+                public void onComplete(@NonNull Task<AuthResult> task) {
+                    if (task.isSuccessful()) {
+
+                        mDatabase.getReference("/users/patients").child(mAuth.getCurrentUser().getUid()).setValue(mPatient);
+                        Toast.makeText(getApplicationContext(), "Successful", Toast.LENGTH_LONG).show();
+                        Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
+                        startActivity(intent);
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Auth Error", Toast.LENGTH_LONG).show();
+                    }
+                }
+            });
+        }
+
+        else {
+            final Employee mEmployee = new Employee(firstName, lastName, password, email);
+            mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
-                if(task.isSuccessful()) {
+                if (task.isSuccessful()) {
 
-                    mDatabase.getReference("/users/patients").child(mAuth.getCurrentUser().getUid()).setValue(mPatient);
+                    mDatabase.getReference("/users/employees").child(mAuth.getCurrentUser().getUid()).setValue(mEmployee);
                     Toast.makeText(getApplicationContext(), "Successful", Toast.LENGTH_LONG).show();
                     Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
                     startActivity(intent);
-                }
-                else {
+                } else {
                     Toast.makeText(getApplicationContext(), "Auth Error", Toast.LENGTH_LONG).show();
                 }
             }
         });
+
+        }
     }
+
+
 
     public void initializeUI(){
         firstNameEditText = findViewById(R.id.fnText);
@@ -109,6 +149,9 @@ public class SignUpActivity extends AppCompatActivity {
         passwordEditText = findViewById(R.id.pwText);
         passwordConfirmEditText = findViewById(R.id.pwcText);
         signupButton = findViewById(R.id.signupBtn);
+        patientBox = findViewById(R.id.patientCheckBox);
+        employeeBox = findViewById(R.id.employeeCheckBox);
+
     }
 
 }
