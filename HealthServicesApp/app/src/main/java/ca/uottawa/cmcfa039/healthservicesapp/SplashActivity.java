@@ -82,7 +82,7 @@ public class SplashActivity extends AppCompatActivity {
                     String type = "Patient";
 
                     welcomeEditText.setText("Welcome " + firstName);
-                    signInEditText.setText("You're a: " + type);
+                    signInEditText.setText("You're logged-in as a: " + type);
                 }
 
             }
@@ -107,7 +107,7 @@ public class SplashActivity extends AppCompatActivity {
                     String type = "Employee";
 
                     welcomeEditText.setText("Welcome " + firstName);
-                    signInEditText.setText("You're an: " + type);
+                    signInEditText.setText("You're logged-in as a: " + type);
                 }
 
             }
@@ -130,7 +130,7 @@ public class SplashActivity extends AppCompatActivity {
                     String type = "Admin";
 
                     welcomeEditText.setText("Welcome " + firstName);
-                    signInEditText.setText("You're an: " + type);
+                    signInEditText.setText("You're logged-in as a: " + type);
                 }
             }
 
