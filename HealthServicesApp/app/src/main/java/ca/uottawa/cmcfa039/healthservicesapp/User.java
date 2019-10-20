@@ -47,4 +47,3 @@ public abstract class User{
 
 
 }
-	//Setters will be handled in Client class
