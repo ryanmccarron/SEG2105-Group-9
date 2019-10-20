@@ -14,9 +14,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GetTokenResult;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -63,9 +65,9 @@ public class SplashActivity extends AppCompatActivity {
             startActivity(intent);
 
         } else {
-
-            patientSplash(); //CHANGE THIS
-
+            patientSplash();
+            employeeSplash();
+            adminSplash();
         }
     }
 
@@ -73,14 +75,15 @@ public class SplashActivity extends AppCompatActivity {
         mDatabase.child("/users/patients").child(mUser.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Patient currentPatient = dataSnapshot.getValue(Patient.class);
+                if(dataSnapshot.exists()) {
+                    Patient currentPatient = dataSnapshot.getValue(Patient.class);
 
-                String firstName = currentPatient.getFirstName();
-                String type = "Patient";
+                    String firstName = currentPatient.getFirstName();
+                    String type = "Patient";
 
-                welcomeEditText.setText("Welcome " + firstName);
-                signInEditText.setText("Your are a " + type);
-                return;
+                    welcomeEditText.setText("Welcome " + firstName);
+                    signInEditText.setText("You're a: " + type);
+                }
 
             }
 
@@ -97,15 +100,38 @@ public class SplashActivity extends AppCompatActivity {
         mDatabase.child("/users/employees").child(mUser.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Employee currentEmployee = dataSnapshot.getValue(Employee.class);
+                if(dataSnapshot.exists()) {
+                    Employee currentEmployee = dataSnapshot.getValue(Employee.class);
 
-                String firstName = currentEmployee.getFirstName();
-                String type = "Employee";
+                    String firstName = currentEmployee.getFirstName();
+                    String type = "Employee";
 
-                welcomeEditText.setText("Welcome " + firstName);
-                signInEditText.setText("Your are a " + type);
-                return;
+                    welcomeEditText.setText("Welcome " + firstName);
+                    signInEditText.setText("You're an " + type);
+                }
 
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    public void adminSplash() {
+        mDatabase.child("/users/admins").child(mUser.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(dataSnapshot.exists()) {
+                    Admin currentAdmin = dataSnapshot.getValue(Admin.class);
+
+                    String firstName = currentAdmin.getFirstName();
+                    String type = "Admin";
+
+                    welcomeEditText.setText("Welcome " + firstName);
+                    signInEditText.setText("You're an " + type);
+                }
             }
 
             @Override

@@ -9,8 +9,6 @@ import android.text.TextUtils;
 import android.os.Bundle;
 import android.view.View;
 
-import java.security.MessageDigest;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -38,7 +36,7 @@ public class SignUpActivity extends AppCompatActivity {
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.sign_up);
+        setContentView(R.layout.activity_signup);
 
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance();
@@ -98,6 +96,23 @@ public class SignUpActivity extends AppCompatActivity {
         }
 
         if(!(patientBox.isChecked() || employeeBox.isChecked())) {
+
+            /*final Admin mAdmin = new Admin(firstName, lastName, password, email);
+            mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                @Override
+                public void onComplete(@NonNull Task<AuthResult> task) {
+                    if (task.isSuccessful()) {
+
+                        mDatabase.getReference("/users/admins").child(mAuth.getCurrentUser().getUid()).setValue(mAdmin); //SECRET ADMIN GENERATION CODE, DISABLED UNTIL NEEDED
+                        Toast.makeText(getApplicationContext(), "Successful", Toast.LENGTH_LONG).show();
+                        Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
+                        startActivity(intent);
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Auth Error", Toast.LENGTH_LONG).show();
+                    }
+                }
+            });
+*/
             Toast.makeText(getApplicationContext(), "ERROR! Must choose either Patient or Employee", Toast.LENGTH_LONG).show();
             return;
         }

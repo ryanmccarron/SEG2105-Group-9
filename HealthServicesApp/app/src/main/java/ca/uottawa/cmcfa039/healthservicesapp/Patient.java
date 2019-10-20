@@ -4,6 +4,7 @@ public class Patient extends Client {
 	public Patient (){
 		super ();
 
+
 	}
 	public Patient (String fName, String lName, String password, String em){
 		super (fName, lName, password, em);

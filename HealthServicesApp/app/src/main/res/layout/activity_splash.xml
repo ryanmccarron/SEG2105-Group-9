@@ -6,12 +6,14 @@
     <TextView
         android:id="@+id/welcomeText"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:textSize="24sp" />
 
     <TextView
         android:id="@+id/signInText"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:textSize="24sp" />
 
     <Button
         android:id="@+id/signOutBtn"
