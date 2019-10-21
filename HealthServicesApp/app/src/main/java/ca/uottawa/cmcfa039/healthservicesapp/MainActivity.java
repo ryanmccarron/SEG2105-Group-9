@@ -19,6 +19,11 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.android.gms.tasks.Task;
 
+import java.nio.charset.StandardCharsets;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+import java.security.MessageDigest;
+
 public class MainActivity extends AppCompatActivity {
 
     private EditText emailEditText;
@@ -74,6 +79,8 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
+        password = getSecurePassword(password);
+
         mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
@@ -87,6 +94,25 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    public String getSecurePassword(String password) {
+
+        StringBuilder sbuild = new StringBuilder();
+
+
+        try {
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
+            byte[] hash = md.digest(password.getBytes(StandardCharsets.UTF_8));
+
+            for (byte i : hash) {
+                sbuild.append(String.format("%02x", i));
+            }
+        } catch (NoSuchAlgorithmException e) {
+
+        }
+
+        return sbuild.toString();
     }
 
 

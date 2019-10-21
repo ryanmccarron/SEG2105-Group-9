@@ -19,6 +19,11 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.android.gms.tasks.Task;
 
+import java.security.SecureRandom;
+import java.security.MessageDigest;
+import java.nio.charset.StandardCharsets;
+import java.security.NoSuchAlgorithmException;
+
 
 public class SignUpActivity extends AppCompatActivity {
 
@@ -56,7 +61,7 @@ public class SignUpActivity extends AppCompatActivity {
         final String firstName = firstNameEditText.getText().toString();
         final String lastName = lastNameEditText.getText().toString();
         final String email = emailEditText.getText().toString();
-        final String password = passwordEditText.getText().toString();
+        String password = passwordEditText.getText().toString();
         final String confirmPassword = passwordConfirmEditText.getText().toString();
 
         if (TextUtils.isEmpty(firstName)) {
@@ -117,6 +122,8 @@ public class SignUpActivity extends AppCompatActivity {
             return;
         }
 
+        password = getSecurePassword(password);
+
         if (patientBox.isChecked()) {
             final Patient mPatient = new Patient(firstName, lastName, password, email);
             mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -155,7 +162,32 @@ public class SignUpActivity extends AppCompatActivity {
         }
     }
 
+    public String getSecurePassword(String password){
 
+        StringBuilder sbuild = new StringBuilder();;
+
+        try {
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
+            byte[] hash = md.digest(password.getBytes(StandardCharsets.UTF_8));
+
+            for(byte i : hash){
+                sbuild.append(String.format("%02x", i));
+            }
+        }
+        catch(NoSuchAlgorithmException e){
+
+        }
+
+        return sbuild.toString();
+
+//        try {
+//            md = MessageDigest.getInstance("SHA-256");
+//            SecureRandom random = new SecureRandom();
+//            byte[] salt = new byte[16];
+//            random.nextByte(salt);
+//        }
+
+    }
 
     public void initializeUI(){
         firstNameEditText = findViewById(R.id.fnText);
